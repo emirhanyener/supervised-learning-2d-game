@@ -25,10 +25,28 @@ document.addEventListener('keyup', player_control_keyup);
 setInterval(update, 10);
 setInterval(update_secure, 5000);
 
+
+let list = new Character(0, 0);
+list.add(new Character(1,1));
+list.add(new Character(2,1));
+list.add(new Character(3,1));
+list.add(new Character(4,2));
+list_characters();
+
 let right = false;
 let left = false;
 let up = false;
 let down = false;
+
+function list_characters(){
+	let iterator = new CharacterIterator(list);
+	console.log(iterator.get());
+
+	while(iterator.next())
+	{
+		console.log(iterator.get());
+	}
+}
 
 function update(){
 	if(left){
