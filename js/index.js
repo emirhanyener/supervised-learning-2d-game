@@ -26,12 +26,15 @@ setInterval(update, 10);
 setInterval(update_secure, 5000);
 
 
-let list = new Character(0, 0);
-list.add(new Character(1,1));
-list.add(new Character(2,1));
-list.add(new Character(3,1));
-list.add(new Character(4,2));
-list_characters();
+let list = new Character(300, 300);
+let iterator = new CharacterIterator(list);
+
+for(let i = 0; i < 49; i++){
+	let temp = new Character(300, 300);
+	temp.velocity_x = (Math.random() - 0.5) * 10;
+	temp.velocity_y = (Math.random() - 0.5) * 10;
+	list.add(temp);
+}
 
 let right = false;
 let left = false;
@@ -39,8 +42,7 @@ let up = false;
 let down = false;
 
 function list_characters(){
-	let iterator = new CharacterIterator(list);
-	console.log(iterator.get());
+	iterator.reset();
 
 	while(iterator.next())
 	{
@@ -65,10 +67,14 @@ function update(){
 	ctx.fillRect(0, 0, window.innerWidth * 0.8, window.innerHeight * 0.8);
 	ctx.fillStyle = "#009900";
 	ctx.fillRect(secure_position.x, secure_position.y, 200, 200);
-	if(is_alive){
-		ctx.fillStyle = "#FF0000";
-		ctx.fillRect(x, y, 20, 20);
+	
+	iterator.reset();
+	while(iterator.next()){
+		ctx.fillStyle = "#990000";
+		ctx.fillRect(iterator.get().position_x, iterator.get().position_y, 25, 25);
+		iterator.get().calculate();
 	}
+
 	score++;
 	document.getElementById("score-text").innerHTML = "score = " + score;
 	if(!is_alive)

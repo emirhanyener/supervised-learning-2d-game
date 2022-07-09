@@ -4,6 +4,7 @@ class Character{
         this.position_y = y;
         this.velocity_x = 0;
         this.velocity_y = 0;
+        this.is_alive = true;
         this.next = null;
     }
 
@@ -13,5 +14,10 @@ class Character{
             temp = temp.next;
         }
         temp.next = _character;
+    }
+
+    calculate(){
+        this.position_x += this.velocity_x;
+        this.position_y += this.velocity_y;
     }
 }
