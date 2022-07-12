@@ -1,21 +1,30 @@
-const learning_rate = 0.8;
+const LEARNING_RATE = 0.1;
+const MOMENTUM = 0.1;
 
 function activation_function(value){
     //return (1 / (1 + Math.exp(value * (-1))));
-    //return Math.tanh(value);
-    return value >= 0 ? 1 : -1;
+    return Math.tanh(value);
+    //return value >= 0 ? 1 : -1;
+}
+
+function deactivation_funtion(value){
+    return(1 - Math.pow(value, 2)); //1 - tanh^2
 }
 
 class Neuron{
     constructor(){
         this.value = 0;
         this.weights = [];
+        this.change = [];
         this.bias = 0;
     }
 
     random(weight_num){
         for(let i = 0; i < weight_num; i++){
             this.weights[i] = (Math.random() * 2 - 1) / 10;
+        }
+        for(let i = 0; i < weight_num; i++){
+            this.change[i] = 0;
         }
     }
 }
@@ -69,16 +78,34 @@ class Network{
         }
     }
 
-    next(values){
-        for(let i = 0; i < values.length; i++){
-            this.layers[0].neurons[i].value = values[i];
+    next(){
+        let targets = [activation_function(this.layers[0].neurons[1].value - this.layers[0].neurons[0].value), activation_function(this.layers[0].neurons[3].value - this.layers[0].neurons[2].value)];
+        let deltas = [];
+        for(let i = 0; i < this.layers.length - 1; i++){
+            deltas.push([]);
         }
-        let target = [activation_function(values[0] - values[2]), activation_function(values[1] - values[3])];
-        for(let n = 1; n < this.layers.length - 2; n++){
-            for(let i = 0; i < this.layers[n].neurons.length; i++){
-                for(let j = 0; j < this.layers[n].neurons[i].weights.length; j++){
-                    if(this.layers[this.layers.length - 1].neurons[i].value != target[i])
-                        this.layers[n].neurons[i].weights[j] += learning_rate * targets[i % 2];
+        let error = 0;
+
+        for(let n = 0; n < this.layers[this.layers.length - 1].neurons.length; n++){
+            deltas[deltas.length - 1].push(deactivation_funtion(this.layers[this.layers.length - 1].neurons[n].value) * (targets[n] - this.layers[this.layers.length - 1].neurons[n].value));
+        }
+        
+        for(let l = this.layers.length - 2; l > 0; l--){
+            for(let n = 0; n < this.layers[l].neurons.length; n++){
+                error = 0;
+                for(let j = 0; j < this.layers[l + 1].neurons.length; j++){
+                    error += deltas[l][j] * this.layers[l + 1].neurons[j].weights[n];
+                }
+                deltas[l - 1].push(deactivation_funtion(this.layers[l].neurons[n].value) * error);
+            }
+        }
+
+        for(let l = this.layers.length - 1; l > 0; l--){
+            for(let n = 0; n < this.layers[l].neurons.length; n++){
+                for(let w = 0; w < this.layers[l].neurons[n].weights.length; w++){
+                    let change = deltas[l - 1][n] * this.layers[l - 1].neurons[w].value;
+                    this.layers[l].neurons[n].weights[w] += LEARNING_RATE * change + MOMENTUM * this.layers[l].neurons[n].change[w];
+                    this.layers[l].neurons[n].change[w] = change;
                 }
             }
         }

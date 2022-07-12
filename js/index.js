@@ -38,11 +38,11 @@ start();
 alive = generation;
 function start(){
 	for(let i = 0; i < generation; i++){
-		networks[i].add_layer([4, 2]);
+		networks[i].add_layer([4, 6, 2]);
 	}
 }
 
-const time_delay = 800;
+const time_delay = 500;
 let saved_time = (new Date()).getTime();
 
 function update(){
@@ -86,25 +86,19 @@ function reset_all(){
 	alive = generation;
 	
 	for(let i = 0; i < generation; i++){
+		networks[i].next();
 		characters[i].position_x = 500;
 		characters[i].position_y = 250;
 		characters[i].is_alive = true;
-		networks[i].next([((characters[i].position_x) / (window.innerWidth * 0.8)), ((secure_position.x + 100) / (window.innerWidth * 0.8)), ((characters[i].position_y) / (window.innerHeight * 0.8)), ((secure_position.y + 100) / (window.innerHeight * 0.8))]);
 	}
 }
 
 function update_secure(){
-	
 	for(let i = 0; i < generation; i++){
 		if(Math.abs(secure_position.x + 100 - characters[i].position_x) > 100 || Math.abs(secure_position.y + 100 - characters[i].position_y) > 100){
 			if(characters[i].is_alive){
 				characters[i].is_alive = false;
 				alive--;
-			}
-		}
-		else{
-			if(characters[i].is_alive){
-				networks[i].next([((characters[i].position_x) / (window.innerWidth * 0.8)), ((secure_position.x + 100) / (window.innerWidth * 0.8)), ((characters[i].position_y) / (window.innerHeight * 0.8)), ((secure_position.y + 100) / (window.innerHeight * 0.8))]);
 			}
 		}
 	}

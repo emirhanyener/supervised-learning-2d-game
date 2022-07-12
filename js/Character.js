@@ -5,7 +5,7 @@ class Character{
         this.velocity_x = 0;
         this.velocity_y = 0;
         this.is_alive = true;
-        this.speed = 8;
+        this.speed = 25;
         this.next = null;
     }
 
