@@ -6,15 +6,6 @@ class Character{
         this.velocity_y = 0;
         this.is_alive = true;
         this.speed = 25;
-        this.next = null;
-    }
-
-    add(_character){
-        let temp = this;
-        while(temp.next != null){
-            temp = temp.next;
-        }
-        temp.next = _character;
     }
 
     calculate(){

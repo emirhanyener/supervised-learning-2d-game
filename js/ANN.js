@@ -1,14 +1,14 @@
-const LEARNING_RATE = 0.1;
+const LEARNING_RATE = 0.8;
 const MOMENTUM = 0.1;
 
+//hyperbolic tangent activation function
 function activation_function(value){
-    //return (1 / (1 + Math.exp(value * (-1))));
-    return Math.tanh(value);
-    //return value >= 0 ? 1 : -1;
+    return Math.tanh(value); 
 }
 
+//activation function derivative
 function deactivation_funtion(value){
-    return(1 - Math.pow(value, 2)); //1 - tanh^2
+    return (1 - Math.pow(value, 2)); //1 - tanh ^ 2
 }
 
 class Neuron{
@@ -16,10 +16,9 @@ class Neuron{
         this.value = 0;
         this.weights = [];
         this.change = [];
-        this.bias = 0;
     }
 
-    random(weight_num){
+    init(weight_num){
         for(let i = 0; i < weight_num; i++){
             this.weights[i] = (Math.random() * 2 - 1) / 10;
         }
@@ -38,7 +37,7 @@ class Layer{
     add_neuron(neuron_num, weight_num){
         for(let i = 0; i < neuron_num; i++){
             let neuron = new Neuron();
-            neuron.random(weight_num);
+            neuron.init(weight_num);
             this.neurons[i] = neuron;
         }
     }
@@ -52,8 +51,9 @@ class Network{
     add_layer(values){
         for(let i = 0; i < values.length; i++){
             this.layers[i] = new Layer(i);
-            if(i == 0)
+            if(i == 0){
                 this.layers[i].add_neuron(values[i], 0);
+            }
 
             for(let j = 0; j < values[i]; j++){
                 this.layers[i].add_neuron(values[i], values[i - 1]);
@@ -61,9 +61,9 @@ class Network{
         }
     }
 
-    calculate(values){
-        for(let i = 0; i < values.length; i++){
-            this.layers[0].neurons[i].value = values[i];
+    calculate(inputs){
+        for(let i = 0; i < inputs.length; i++){
+            this.layers[0].neurons[i].value = inputs[i];
         }
         let sum = 0;
         for(let n = 1; n < this.layers.length; n++){
@@ -72,7 +72,6 @@ class Network{
                 for(let j = 0; j < this.layers[n - 1].neurons.length; j++){
                     sum += this.layers[n - 1].neurons[j].value * this.layers[n].neurons[i].weights[j];
                 }
-                sum += this.layers[n].neurons[i].bias;
                 this.layers[n].neurons[i].value = activation_function(sum);
             }
         }
@@ -81,10 +80,11 @@ class Network{
     next(){
         let targets = [activation_function(this.layers[0].neurons[1].value - this.layers[0].neurons[0].value), activation_function(this.layers[0].neurons[3].value - this.layers[0].neurons[2].value)];
         let deltas = [];
+        let error = 0;
+
         for(let i = 0; i < this.layers.length - 1; i++){
             deltas.push([]);
         }
-        let error = 0;
 
         for(let n = 0; n < this.layers[this.layers.length - 1].neurons.length; n++){
             deltas[deltas.length - 1].push(deactivation_funtion(this.layers[this.layers.length - 1].neurons[n].value) * (targets[n] - this.layers[this.layers.length - 1].neurons[n].value));
