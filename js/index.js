@@ -47,18 +47,22 @@ function update(){
 
 	ctx.fillStyle = "#000000";
 	ctx.fillRect(0, 0, window.innerWidth * 0.8, window.innerHeight * 0.8);
-	ctx.fillStyle = "#009900";
 	ctx.fillRect(secure_position.x, secure_position.y, 200, 200);
+	ctx.beginPath();
+	ctx.fillStyle = "#00FF0080";
+	ctx.arc(secure_position.x, secure_position.y, 100, 0, 2 * Math.PI);
+	ctx.fill();
 	
 	for(let i = 0; i < population; i++){
 		if(characters[i].is_alive){
-			networks[i].calculate([((characters[i].position_x) / (window.innerWidth * 0.8)), ((secure_position.x + 100) / (window.innerWidth * 0.8)), ((characters[i].position_y) / (window.innerHeight * 0.8)), ((secure_position.y + 100) / (window.innerHeight * 0.8))]);
+			networks[i].calculate([((characters[i].position_x) / (window.innerWidth * 0.8)), ((secure_position.x) / (window.innerWidth * 0.8)), ((characters[i].position_y) / (window.innerHeight * 0.8)), ((secure_position.y) / (window.innerHeight * 0.8))]);
 			characters[i].velocity_x = networks[i].layers[networks[i].layers.length - 1].neurons[0].value;
 			characters[i].velocity_y = networks[i].layers[networks[i].layers.length - 1].neurons[1].value;
 			characters[i].calculate();
-
-			ctx.fillStyle = "#990000";
-			ctx.fillRect(characters[i].position_x, characters[i].position_y, 25, 25);
+			ctx.beginPath();
+			ctx.fillStyle = "#FF000080";
+			ctx.arc(characters[i].position_x, characters[i].position_y, 8, 0, 2 * Math.PI);
+			ctx.fill();
 		}
 	}
 
@@ -85,7 +89,7 @@ function reset_all(){
 
 function update_secure(){
 	for(let i = 0; i < population; i++){
-		if(Math.abs(secure_position.x + 100 - characters[i].position_x) > 100 || Math.abs(secure_position.y + 100 - characters[i].position_y) > 100){
+		if(Math.sqrt(Math.pow(secure_position.x - characters[i].position_x, 2) + Math.pow(secure_position.y - characters[i].position_y, 2)) > 100){
 			if(characters[i].is_alive){
 				characters[i].is_alive = false;
 				alive--;
