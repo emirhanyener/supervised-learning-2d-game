@@ -31,6 +31,7 @@ function start(){
 		networks.push(new Network());
 		characters.push(new Character(window_width / 2, window_height / 2));
 		networks[i].add_layer([4, 6, 8, 2]);
+		status_select.innerHTML += "<option value = \"" + i + "\">" + "character (" + (i + 1) + ") network</option>";
 	}
 }
 
@@ -84,18 +85,25 @@ function update(){
 	else if(status_select.value == "best"){
 		ctx.fillStyle = "#FFF";
 		ctx.strokeStyle = "#0000FF80";
-		for(let x = networks[0].layers.length - 1; x >= 0; x--){
-			for(let y = networks[0].layers[x].neurons.length - 1; y >= 0; y--){
-				ctx.beginPath();
-				ctx.arc(100 + x * 300, 100 + y * 70, 10, 0, 2 * Math.PI);
-				ctx.fill();
-				for(let w = 0; w < networks[0].layers[x].neurons[y].weights.length; w++){
-					ctx.beginPath();
-					ctx.moveTo(85 + x * 300, 100 + y * 70);
-					ctx.lineWidth = networks[0].layers[x].neurons[y].weights[w] * 10;
-					ctx.lineTo(115 + (x - 1) * 300, 100 + w * 70);
-					ctx.stroke();
+		for(let i = 0; i < population; i++){
+			if(characters[i].is_alive){
+				for(let x = networks[i].layers.length - 1; x >= 0; x--){
+					for(let y = networks[i].layers[x].neurons.length - 1; y >= 0; y--){
+						ctx.font = "26px Arial";
+						ctx.fillText("character " + (i + 1) + " neural network;", 50, 50);
+						ctx.beginPath();
+						ctx.arc(100 + x * 300, 130 + y * 70, 10, 0, 2 * Math.PI);
+						ctx.fill();
+						for(let w = 0; w < networks[0].layers[x].neurons[y].weights.length; w++){
+							ctx.beginPath();
+							ctx.moveTo(85 + x * 300, 130 + y * 70);
+							ctx.lineWidth = networks[0].layers[x].neurons[y].weights[w] * 10;
+							ctx.lineTo(115 + (x - 1) * 300, 130 + w * 70);
+							ctx.stroke();
+						}
+					}
 				}
+				break;
 			}
 		}
 	}
