@@ -5,6 +5,9 @@ class Position {
 	}
 }
 
+document.addEventListener("keydown", key_down_fn);
+
+let slow_motion = false;
 let time_delay = 500;
 
 let window_width = window.innerWidth;
@@ -165,5 +168,28 @@ function update_secure(){
 	}
 	if(secure_position.y > window_height - 200){
 		secure_position.y -= 200;
+	}
+}
+
+function key_down_fn(e){
+	if(e.code == "Space"){
+		slow_motion = !slow_motion;
+	}
+
+	if(slow_motion){
+		for(let i = 0; i < population; i++){
+			if(characters[i].is_alive){
+				characters[i].speed /= 2;
+			}
+		}
+		time_delay *= 2;
+	}
+	else{
+		for(let i = 0; i < population; i++){
+			if(characters[i].is_alive){
+				characters[i].speed *= 2;
+			}
+		}
+		time_delay /= 2;
 	}
 }
