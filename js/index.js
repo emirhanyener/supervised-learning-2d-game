@@ -69,6 +69,11 @@ function update(){
 	ctx.fillRect(0, 0, window_width, window_height);
 
 	if(status_select.value == "game"){
+		ctx.fillStyle = "#AAAAAA";
+		ctx.font = "26px Verdana";
+		ctx.fillText("alive " + alive, 50, 50);
+		ctx.fillText("score " + score, 50, 80);
+		ctx.fillStyle = "#000000";
 
 		ctx.fillRect(secure_position.x, secure_position.y, 200, 200);
 		ctx.beginPath();
@@ -86,14 +91,15 @@ function update(){
 		}
 	}
 	else if(status_select.value == "best"){
-		ctx.fillStyle = "#FFF";
-		ctx.strokeStyle = "#0000FF80";
 		for(let i = 0; i < population; i++){
 			if(characters[i].is_alive){
+				ctx.fillStyle = "#AAAAAA";
+				ctx.font = "26px Verdana";
+				ctx.fillText("character " + (i + 1) + " neural network;", 50, 50);
+				ctx.fillStyle = "#FFF";
+				ctx.strokeStyle = "#0000FF80";
 				for(let x = networks[i].layers.length - 1; x >= 0; x--){
 					for(let y = networks[i].layers[x].neurons.length - 1; y >= 0; y--){
-						ctx.font = "26px Arial";
-						ctx.fillText("character " + (i + 1) + " neural network;", 50, 50);
 						ctx.beginPath();
 						ctx.arc(100 + x * 300, 130 + y * 70, 10, 0, 2 * Math.PI);
 						ctx.fill();
@@ -111,12 +117,13 @@ function update(){
 		}
 	}
 	else{
+		ctx.fillStyle = "#AAAAAA";
+		ctx.font = "26px Verdana";
+		ctx.fillText("character " + (parseInt(status_select.value) + 1) + " neural network;", 50, 50);
 		ctx.fillStyle = "#FFF";
 		ctx.strokeStyle = "#0000FF80";
 		for(let x = networks[parseInt(status_select.value)].layers.length - 1; x >= 0; x--){
 			for(let y = networks[parseInt(status_select.value)].layers[x].neurons.length - 1; y >= 0; y--){
-				ctx.font = "26px Arial";
-				ctx.fillText("character " + (parseInt(status_select.value) + 1) + " neural network;", 50, 50);
 				ctx.beginPath();
 				ctx.arc(100 + x * 300, 130 + y * 70, 10, 0, 2 * Math.PI);
 				ctx.fill();
