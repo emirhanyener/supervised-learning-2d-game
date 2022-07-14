@@ -94,16 +94,36 @@ function update(){
 						ctx.beginPath();
 						ctx.arc(100 + x * 300, 130 + y * 70, 10, 0, 2 * Math.PI);
 						ctx.fill();
-						for(let w = 0; w < networks[0].layers[x].neurons[y].weights.length; w++){
+						for(let w = 0; w < networks[i].layers[x].neurons[y].weights.length; w++){
 							ctx.beginPath();
 							ctx.moveTo(85 + x * 300, 130 + y * 70);
-							ctx.lineWidth = networks[0].layers[x].neurons[y].weights[w] * 10;
+							ctx.lineWidth = networks[i].layers[x].neurons[y].weights[w] * 10;
 							ctx.lineTo(115 + (x - 1) * 300, 130 + w * 70);
 							ctx.stroke();
 						}
 					}
 				}
 				break;
+			}
+		}
+	}
+	else{
+		ctx.fillStyle = "#FFF";
+		ctx.strokeStyle = "#0000FF80";
+		for(let x = networks[parseInt(status_select.value)].layers.length - 1; x >= 0; x--){
+			for(let y = networks[parseInt(status_select.value)].layers[x].neurons.length - 1; y >= 0; y--){
+				ctx.font = "26px Arial";
+				ctx.fillText("character " + (parseInt(status_select.value) + 1) + " neural network;", 50, 50);
+				ctx.beginPath();
+				ctx.arc(100 + x * 300, 130 + y * 70, 10, 0, 2 * Math.PI);
+				ctx.fill();
+				for(let w = 0; w < networks[parseInt(status_select.value)].layers[x].neurons[y].weights.length; w++){
+					ctx.beginPath();
+					ctx.moveTo(85 + x * 300, 130 + y * 70);
+					ctx.lineWidth = networks[parseInt(status_select.value)].layers[x].neurons[y].weights[w] * 10;
+					ctx.lineTo(115 + (x - 1) * 300, 130 + w * 70);
+					ctx.stroke();
+				}
 			}
 		}
 	}

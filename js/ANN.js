@@ -1,4 +1,4 @@
-const LEARNING_RATE = 0.8;
+const LEARNING_RATE = 0.3;
 const MOMENTUM = 0.1;
 
 //hyperbolic tangent activation function
