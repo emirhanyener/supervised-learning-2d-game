@@ -1,6 +1,10 @@
 # supervised-learning-2d-game
 Artifical Neural Network (ANN) Javascript library and 2D game example. 
 
+## Features
+- 2D game example.
+- Visual neural network drawing.
+
 ## About Game
 - Character can move up, down, right and left.
 - Character must move to the center of the secure area in time.
@@ -19,7 +23,11 @@ Supervised learning: Targets are difference between secure area x position and c
 - velocity y
 
 ## Images
-![Image1](https://github.com/emirhanyener/supervised-learning-2d-game/blob/master/images/game1.PNG)
+### Game
+![game](https://github.com/emirhanyener/supervised-learning-2d-game/blob/master/images/game.PNG)
+
+### Character network visual drawing
+![network](https://github.com/emirhanyener/supervised-learning-2d-game/blob/master/images/network.PNG)
 
 ## LICENSE
 [MIT](LICENSE)
