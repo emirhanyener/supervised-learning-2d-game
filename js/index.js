@@ -73,6 +73,7 @@ function update(){
 		ctx.font = "26px Verdana";
 		ctx.fillText("alive " + alive, 50, 50);
 		ctx.fillText("score " + score, 50, 80);
+		ctx.fillText("time delay " + time_delay, 50, 110);
 		ctx.fillStyle = "#000000";
 
 		ctx.fillRect(secure_position.x, secure_position.y, 200, 200);
@@ -179,24 +180,30 @@ function update_secure(){
 }
 
 function key_down_fn(e){
-	if(e.code == "Space"){
+	if(e.code == "KeyS"){
 		slow_motion = !slow_motion;
-	}
-
-	if(slow_motion){
-		for(let i = 0; i < population; i++){
-			if(characters[i].is_alive){
-				characters[i].speed /= 2;
+		if(slow_motion){
+			for(let i = 0; i < population; i++){
+				if(characters[i].is_alive){
+					characters[i].speed /= 2;
+				}
 			}
+			time_delay *= 2;
 		}
-		time_delay *= 2;
-	}
-	else{
-		for(let i = 0; i < population; i++){
-			if(characters[i].is_alive){
-				characters[i].speed *= 2;
+		else{
+			for(let i = 0; i < population; i++){
+				if(characters[i].is_alive){
+					characters[i].speed *= 2;
+				}
 			}
+			time_delay /= 2;
 		}
-		time_delay /= 2;
+	}
+	if(e.code == "ArrowRight"){
+		time_delay += 100;
+	}
+	if(e.code == "ArrowLeft"){
+		if(time_delay > 100)
+			time_delay -= 100;
 	}
 }
