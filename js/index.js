@@ -69,14 +69,7 @@ function update(){
 	ctx.fillRect(0, 0, window_width, window_height);
 
 	if(status_select.value == "game"){
-		ctx.fillStyle = "#AAAAAA";
-		ctx.font = "26px Verdana";
-		ctx.fillText("alive " + alive, 50, 50);
-		ctx.fillText("score " + score, 50, 80);
-		ctx.fillText("time delay " + time_delay, 50, 110);
-		ctx.fillStyle = "#000000";
-
-		ctx.fillRect(secure_position.x, secure_position.y, 200, 200);
+		ctx.fillStyle = "#FFFFFF";
 		ctx.beginPath();
 		ctx.fillStyle = "#00FF0080";
 		ctx.arc(secure_position.x, secure_position.y, 100, 0, 2 * Math.PI);
@@ -85,11 +78,28 @@ function update(){
 		for(let i = 0; i < population; i++){
 			if(characters[i].is_alive){
 				ctx.beginPath();
+				ctx.moveTo(characters[i].position_x, characters[i].position_y);
+				ctx.lineTo(secure_position.x, secure_position.y);
+				ctx.strokeStyle = "#FFFFFF05";
+				ctx.stroke();
+				ctx.beginPath();
 				ctx.fillStyle = "#FF000080";
 				ctx.arc(characters[i].position_x, characters[i].position_y, 8, 0, 2 * Math.PI);
 				ctx.fill();
 			}
+			else{
+				ctx.beginPath();
+				ctx.fillStyle = "#FFFFFF10";
+				ctx.arc(characters[i].position_x, characters[i].position_y, 8, 0, 2 * Math.PI);
+				ctx.fill();
+			}
 		}
+
+		ctx.fillStyle = "#AAAAAA";
+		ctx.font = "26px Verdana";
+		ctx.fillText("alive " + alive, 50, 50);
+		ctx.fillText("score " + score, 50, 80);
+		ctx.fillText("time delay " + time_delay, 50, 110);
 	}
 	else if(status_select.value == "best"){
 		for(let i = 0; i < population; i++){
