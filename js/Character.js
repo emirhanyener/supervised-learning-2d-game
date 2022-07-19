@@ -8,6 +8,7 @@ class Character{
         this.speed = 25;
     }
 
+    //calculates new position
     calculate(){
         this.position_x += this.velocity_x * this.speed;
         this.position_y += this.velocity_y * this.speed;

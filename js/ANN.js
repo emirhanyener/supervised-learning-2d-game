@@ -11,6 +11,7 @@ function deactivation_funtion(value){
     return (1 - Math.pow(value, 2)); //1 - tanh ^ 2
 }
 
+//single neuron class struct
 class Neuron{
     constructor(){
         this.value = 0;
@@ -18,6 +19,7 @@ class Neuron{
         this.change = [];
     }
 
+    //init neuron
     init(weight_num){
         for(let i = 0; i < weight_num; i++){
             this.weights[i] = (Math.random() * 2 - 1) / 10;
@@ -28,12 +30,14 @@ class Neuron{
     }
 }
 
+//neurons class struct
 class Layer{
     constructor(id){
         this.id = id;
         this.neurons = [];
     }
 
+    //add new neuron
     add_neuron(neuron_num, weight_num){
         for(let i = 0; i < neuron_num; i++){
             let neuron = new Neuron();
@@ -43,11 +47,13 @@ class Layer{
     }
 }
 
+//layers class struct
 class Network{
     constructor(){
         this.layers = [];
     }
 
+    //add new layer
     add_layer(values){
         for(let i = 0; i < values.length; i++){
             this.layers[i] = new Layer(i);
@@ -61,6 +67,7 @@ class Network{
         }
     }
 
+    //calculate neurons and weights 
     calculate(inputs){
         for(let i = 0; i < inputs.length; i++){
             this.layers[0].neurons[i].value = inputs[i];
@@ -77,6 +84,7 @@ class Network{
         }
     }
 
+    //backpropagation
     next(){
         let targets = [activation_function(this.layers[0].neurons[1].value - this.layers[0].neurons[0].value), activation_function(this.layers[0].neurons[3].value - this.layers[0].neurons[2].value)];
         let deltas = [];

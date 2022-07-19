@@ -29,6 +29,7 @@ alive = population;
 setInterval(update, 10);
 start();
 
+//init values
 function start(){
 	for(let i = 0; i < population; i++){
 		networks.push(new Network());
@@ -38,6 +39,7 @@ function start(){
 	}
 }
 
+//main frame update function
 function update(){
 	window_width = canvas.clientWidth;
 	window_height = canvas.clientHeight;
@@ -150,6 +152,7 @@ function update(){
 	}
 }
 
+//resets all values
 function reset_all(){
 	update_secure();
 	saved_time = (new Date()).getTime();
@@ -165,6 +168,7 @@ function reset_all(){
 	}
 }
 
+//random secure area position
 function update_secure(){
 	for(let i = 0; i < population; i++){
 		if(Math.sqrt(Math.pow(secure_position.x - characters[i].position_x, 2) + Math.pow(secure_position.y - characters[i].position_y, 2)) > 100){
@@ -189,6 +193,7 @@ function update_secure(){
 	}
 }
 
+//key down event
 function key_down_fn(e){
 	if(e.code == "KeyS"){
 		slow_motion = !slow_motion;
