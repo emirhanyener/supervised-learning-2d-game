@@ -7,7 +7,6 @@ class Position {
 
 document.addEventListener("keydown", key_down_fn);
 
-let slow_motion = false;
 let time_delay = 500;
 
 let window_width = window.innerWidth;
@@ -195,30 +194,15 @@ function update_secure(){
 
 //key down event
 function key_down_fn(e){
-	if(e.code == "KeyS"){
-		slow_motion = !slow_motion;
-		if(slow_motion){
-			for(let i = 0; i < population; i++){
-				if(characters[i].is_alive){
-					characters[i].speed /= 2;
-				}
-			}
-			time_delay *= 2;
-		}
-		else{
-			for(let i = 0; i < population; i++){
-				if(characters[i].is_alive){
-					characters[i].speed *= 2;
-				}
-			}
-			time_delay /= 2;
-		}
-	}
 	if(e.code == "ArrowRight"){
 		time_delay += 100;
 	}
 	if(e.code == "ArrowLeft"){
-		if(time_delay > 100)
+		if(time_delay > 100) {
 			time_delay -= 100;
+		}
+		else {
+			time_delay -= 10;
+		}
 	}
 }
