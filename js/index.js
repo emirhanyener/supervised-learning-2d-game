@@ -195,14 +195,21 @@ function update_secure(){
 //key down event
 function key_down_fn(e){
 	if(e.code == "ArrowRight"){
-		time_delay += 100;
+		if(time_delay > 90) {
+			time_delay += 100;
+		}
+		else {
+			time_delay += 10;
+		}
 	}
 	if(e.code == "ArrowLeft"){
 		if(time_delay > 100) {
 			time_delay -= 100;
 		}
 		else {
-			time_delay -= 10;
+			if(time_delay > 50){
+				time_delay -= 10;
+			}
 		}
 	}
 }
