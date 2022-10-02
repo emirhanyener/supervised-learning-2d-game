@@ -18,7 +18,7 @@ let status_select = document.getElementById("status-select");
 
 let secure_position = new Position(100, 100);
 let score = 0;
-let population = 100;
+let population = 10;
 let generation = 0;
 let networks = [];
 let characters = [];
@@ -51,7 +51,7 @@ function update(){
 		saved_time = d.getTime();
 	}
 
-	if(alive == 0){
+	if(alive <= 0){
 		reset_all();
 		return;
 	}
@@ -211,5 +211,12 @@ function key_down_fn(e){
 				time_delay -= 10;
 			}
 		}
+	}
+	if(e.code == "ArrowUp"){
+		networks.push(new Network());
+		characters.push(new Character(window_width / 2, window_height / 2));
+		networks[population].add_layer([4, 6, 8, 2]);
+		status_select.innerHTML += "<option value = \"" + population + "\">" + "character (" + (population + 1) + ") network</option>";
+		population++;
 	}
 }
